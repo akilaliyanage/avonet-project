@@ -1,96 +1,234 @@
-# AvonetExpenseTracker
+# Avonet Expense Tracker
 
-<a alt="Nx logo" href="https://nx.dev" target="_blank" rel="noreferrer"><img src="https://raw.githubusercontent.com/nrwl/nx/master/images/nx-logo.png" width="45"></a>
+A full-stack personal expense tracking web application built with NextJS, NestJS, MongoDB, and Auth0.
 
-✨ Your new, shiny [Nx workspace](https://nx.dev) is ready ✨.
+## Features
 
-[Learn more about this workspace setup and its capabilities](https://nx.dev/getting-started/intro#learn-nx?utm_source=nx_project&amp;utm_medium=readme&amp;utm_campaign=nx_projects) or run `npx nx graph` to visually explore what was created. Now, let's get you up to speed!
+- **User Authentication**: Secure login/registration using Auth0
+- **Expense Management**: Add, edit, and delete expenses with categories
+- **Budget Tracking**: Set monthly expense limits with alerts at 90% usage
+- **Expense Analytics**: Visual charts showing spending patterns and trends
+- **Responsive Design**: Mobile-friendly interface using Material-UI
+- **Real-time Updates**: Live dashboard with current month statistics
 
-## Run tasks
+## Tech Stack
 
-To run tasks with Nx use:
+### Frontend
+- **NextJS 15** with App Router
+- **React 19** with TypeScript
+- **Material-UI 7** for components and theming
+- **Recharts** for data visualization
+- **Auth0 React SDK** for authentication
 
-```sh
-npx nx <target> <project-name>
+### Backend
+- **NestJS** with TypeScript
+- **MongoDB** with Mongoose ODM
+- **JWT Authentication** with Auth0 integration
+- **Class Validator** for data validation
+- **Passport.js** for authentication strategies
+
+## Prerequisites
+
+- Node.js 18+ and Yarn
+- MongoDB instance (local or cloud)
+- Auth0 account and application
+
+## Setup Instructions
+
+### 1. Clone and Install Dependencies
+
+```bash
+git clone <repository-url>
+cd avonet-expense-tracker
+yarn install
 ```
 
-For example:
+### 2. Backend Configuration
 
-```sh
-npx nx build myproject
+Navigate to the backend directory:
+```bash
+cd apps/backend
 ```
 
-These targets are either [inferred automatically](https://nx.dev/concepts/inferred-tasks?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects) or defined in the `project.json` or `package.json` files.
-
-[More about running tasks in the docs &raquo;](https://nx.dev/features/run-tasks?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
-
-## Add new projects
-
-While you could add new projects to your workspace manually, you might want to leverage [Nx plugins](https://nx.dev/concepts/nx-plugins?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects) and their [code generation](https://nx.dev/features/generate-code?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects) feature.
-
-To install a new plugin you can use the `nx add` command. Here's an example of adding the React plugin:
-```sh
-npx nx add @nx/react
+Copy the environment example and configure:
+```bash
+cp env.example .env
 ```
 
-Use the plugin's generator to create new projects. For example, to create a new React app or library:
+Update `.env` with your configuration:
+```env
+# MongoDB Configuration
+MONGODB_URI=mongodb://localhost:27017/expense-tracker
 
-```sh
-# Generate an app
-npx nx g @nx/react:app demo
+# Auth0 Configuration
+AUTH0_DOMAIN=your-domain.auth0.com
+AUTH0_CLIENT_ID=your-client-id
+AUTH0_CLIENT_SECRET=your-client-secret
+AUTH0_AUDIENCE=your-api-identifier
+AUTH0_ISSUER_URL=https://your-domain.auth0.com/
 
-# Generate a library
-npx nx g @nx/react:lib some-lib
+# Server Configuration
+PORT=3001
+NODE_ENV=development
 ```
 
-You can use `npx nx list` to get a list of installed plugins. Then, run `npx nx list <plugin-name>` to learn about more specific capabilities of a particular plugin. Alternatively, [install Nx Console](https://nx.dev/getting-started/editor-setup?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects) to browse plugins and generators in your IDE.
+### 3. Frontend Configuration
 
-[Learn more about Nx plugins &raquo;](https://nx.dev/concepts/nx-plugins?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects) | [Browse the plugin registry &raquo;](https://nx.dev/plugin-registry?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
-
-## Set up CI!
-
-### Step 1
-
-To connect to Nx Cloud, run the following command:
-
-```sh
-npx nx connect
+Navigate to the frontend directory:
+```bash
+cd ../frontend
 ```
 
-Connecting to Nx Cloud ensures a [fast and scalable CI](https://nx.dev/ci/intro/why-nx-cloud?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects) pipeline. It includes features such as:
-
-- [Remote caching](https://nx.dev/ci/features/remote-cache?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
-- [Task distribution across multiple machines](https://nx.dev/ci/features/distribute-task-execution?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
-- [Automated e2e test splitting](https://nx.dev/ci/features/split-e2e-tasks?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
-- [Task flakiness detection and rerunning](https://nx.dev/ci/features/flaky-tasks?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
-
-### Step 2
-
-Use the following command to configure a CI workflow for your workspace:
-
-```sh
-npx nx g ci-workflow
+Copy the environment example and configure:
+```bash
+cp env.local.example .env.local
 ```
 
-[Learn more about Nx on CI](https://nx.dev/ci/intro/ci-with-nx#ready-get-started-with-your-provider?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
+Update `.env.local` with your Auth0 configuration:
+```env
+# Auth0 Configuration
+NEXT_PUBLIC_AUTH0_DOMAIN=your-domain.auth0.com
+NEXT_PUBLIC_AUTH0_CLIENT_ID=your-client-id
+NEXT_PUBLIC_AUTH0_AUDIENCE=your-api-identifier
 
-## Install Nx Console
+# Backend API URL
+NEXT_PUBLIC_API_URL=http://localhost:3001/api
+```
 
-Nx Console is an editor extension that enriches your developer experience. It lets you run tasks, generate code, and improves code autocompletion in your IDE. It is available for VSCode and IntelliJ.
+### 4. Auth0 Setup
 
-[Install Nx Console &raquo;](https://nx.dev/getting-started/editor-setup?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
+1. Create an Auth0 account at [auth0.com](https://auth0.com)
+2. Create a new application (Single Page Application)
+3. Configure the following:
+   - **Allowed Callback URLs**: `http://localhost:3000`
+   - **Allowed Logout URLs**: `http://localhost:3000`
+   - **Allowed Web Origins**: `http://localhost:3000`
+4. Create an API with identifier (e.g., `https://expense-tracker-api`)
+5. Enable RS256 signing algorithm
+6. Copy the domain, client ID, and audience to your environment files
 
-## Useful links
+### 5. MongoDB Setup
 
-Learn more:
+Start MongoDB locally or use MongoDB Atlas:
+```bash
+# Local MongoDB
+mongod
 
-- [Learn more about this workspace setup](https://nx.dev/getting-started/intro#learn-nx?utm_source=nx_project&amp;utm_medium=readme&amp;utm_campaign=nx_projects)
-- [Learn about Nx on CI](https://nx.dev/ci/intro/ci-with-nx?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
-- [Releasing Packages with Nx release](https://nx.dev/features/manage-releases?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
-- [What are Nx plugins?](https://nx.dev/concepts/nx-plugins?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
+# Or use MongoDB Atlas connection string
+MONGODB_URI=mongodb+srv://username:password@cluster.mongodb.net/expense-tracker
+```
 
-And join the Nx community:
-- [Discord](https://go.nx.dev/community)
-- [Follow us on X](https://twitter.com/nxdevtools) or [LinkedIn](https://www.linkedin.com/company/nrwl)
-- [Our Youtube channel](https://www.youtube.com/@nxdevtools)
-- [Our blog](https://nx.dev/blog?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
+### 6. Run the Application
+
+From the root directory:
+
+```bash
+# Start the backend
+nx serve backend
+
+# In another terminal, start the frontend
+nx serve frontend
+```
+
+The application will be available at:
+- Frontend: http://localhost:3000
+- Backend API: http://localhost:3001/api
+
+## API Endpoints
+
+### Authentication
+- `GET /api/auth/profile` - Get user profile
+- `GET /api/auth/profile/update` - Update user profile
+
+### Expenses
+- `GET /api/expenses` - Get all expenses (with filters)
+- `POST /api/expenses` - Create new expense
+- `GET /api/expenses/:id` - Get specific expense
+- `PATCH /api/expenses/:id` - Update expense
+- `DELETE /api/expenses/:id` - Delete expense
+
+### Analytics
+- `GET /api/expenses/stats/monthly` - Monthly statistics
+- `GET /api/expenses/stats/alert` - Budget alert status
+- `GET /api/expenses/stats/patterns` - Expense patterns over time
+
+## Usage
+
+1. **Login**: Use the "Get Started" button to authenticate with Auth0
+2. **Add Expenses**: Click "Add New Expense" to record spending
+3. **View Dashboard**: See monthly overview, budget usage, and alerts
+4. **Analyze Patterns**: View charts showing spending distribution and trends
+5. **Filter Expenses**: Use the filter options to find specific expenses
+6. **Manage Expenses**: Edit or delete expenses as needed
+
+## Deployment
+
+### Frontend (Vercel - Recommended)
+```bash
+# Install Vercel CLI
+npm i -g vercel
+
+# Deploy
+cd apps/frontend
+vercel
+```
+
+### Backend (Railway, Render, or Heroku)
+1. Push your code to GitHub
+2. Connect your repository to your preferred platform
+3. Set environment variables
+4. Deploy
+
+## Development
+
+### Available Commands
+
+```bash
+# Build applications
+nx build frontend
+nx build backend
+
+# Run tests
+nx test frontend
+nx test backend
+
+# Run e2e tests
+nx e2e frontend-e2e
+nx e2e backend-e2e
+
+# Lint code
+nx lint frontend
+nx lint backend
+```
+
+### Project Structure
+
+```
+avonet-expense-tracker/
+├── apps/
+│   ├── frontend/          # NextJS frontend application
+│   └── backend/           # NestJS backend application
+├── src/
+│   ├── components/        # React components
+│   ├── schemas/           # MongoDB schemas
+│   ├── services/          # Business logic
+│   ├── controllers/       # API endpoints
+│   └── dto/              # Data transfer objects
+└── package.json
+```
+
+## Contributing
+
+1. Fork the repository
+2. Create a feature branch
+3. Make your changes
+4. Add tests if applicable
+5. Submit a pull request
+
+## License
+
+MIT License - see LICENSE file for details
+
+## Support
+
+For issues and questions, please create an issue in the GitHub repository.

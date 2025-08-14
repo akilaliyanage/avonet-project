@@ -17,14 +17,15 @@ import ExpenseForm from './ExpenseForm';
 import ExpenseList from './ExpenseList';
 import ExpenseStats from './ExpenseStats';
 import ExpenseCharts from './ExpenseCharts';
+import { Expense, CreateExpenseData, UpdateExpenseData, ExpenseStats as StatsType } from '../types';
 
 export default function Dashboard() {
   const { logout, user, getAccessTokenSilently } = useAuth0();
   const [showExpenseForm, setShowExpenseForm] = useState(false);
-  const [editingExpense, setEditingExpense] = useState(null);
-  const [expenses, setExpenses] = useState([]);
-  const [stats, setStats] = useState(null);
-  const [alert, setAlert] = useState(null);
+  const [editingExpense, setEditingExpense] = useState<Expense | null>(null);
+  const [expenses, setExpenses] = useState<Expense[]>([]);
+  const [stats, setStats] = useState<StatsType | null>(null);
+  const [alert, setAlert] = useState<string | null>(null);
 
   // Fetch expenses and stats when component mounts
   useEffect(() => {
@@ -73,7 +74,7 @@ export default function Dashboard() {
     }
   };
 
-  const handleAddExpense = async (expenseData) => {
+  const handleAddExpense = async (expenseData: CreateExpenseData) => {
     try {
       const token = await getAccessTokenSilently();
       const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/expenses`, {
@@ -96,7 +97,9 @@ export default function Dashboard() {
     }
   };
 
-  const handleEditExpense = async (expenseData) => {
+  const handleEditExpense = async (expenseData: UpdateExpenseData) => {
+    if (!editingExpense) return;
+    
     try {
       const token = await getAccessTokenSilently();
       const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/expenses/${editingExpense._id}`, {
@@ -119,7 +122,7 @@ export default function Dashboard() {
     }
   };
 
-  const handleStartEdit = (expense) => {
+  const handleStartEdit = (expense: Expense) => {
     setEditingExpense(expense);
     setShowExpenseForm(true);
   };

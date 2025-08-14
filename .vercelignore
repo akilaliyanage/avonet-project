@@ -1,6 +1,5 @@
 # Backend files
 apps/backend/
-dist/apps/backend/
 
 # E2E test files
 apps/*-e2e/

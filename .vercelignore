@@ -4,9 +4,11 @@
 # Dependencies
 node_modules/
 
-# Backend build outputs
+# Backend source and build files (but keep config files)
+apps/backend/src/
+apps/backend/dist/
+apps/backend/node_modules/
 dist/apps/backend/
-apps/backend/
 
 # Development files
 *.log
@@ -24,4 +26,19 @@ apps/backend/
 Thumbs.db
 
 # Keep frontend build output
-!dist/apps/frontend/ 
+!dist/apps/frontend/
+
+# Keep all project configuration files
+!apps/*/project.json
+!apps/*/tsconfig*.json
+!apps/*/package.json
+!apps/*/jest.config.*
+!apps/*/eslint.config.*
+!apps/*/next.config.*
+!apps/*/webpack.config.*
+
+# Keep workspace configuration files
+!nx.json
+!tsconfig.base.json
+!package.json
+!yarn.lock 

@@ -1,0 +1,24 @@
+# Nx cache
+.nx/
+dist/
+
+# Dependencies
+node_modules/
+
+# Build outputs (except frontend)
+dist/apps/backend/
+
+# Development files
+*.log
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# IDE files
+.vscode/
+.idea/
+
+# OS files
+.DS_Store
+Thumbs.db 

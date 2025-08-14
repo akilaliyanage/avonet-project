@@ -1,0 +1,11 @@
+{
+  "buildCommand": "npx nx build frontend --configuration=production",
+  "outputDirectory": "dist/apps/frontend",
+  "framework": "nextjs",
+  "installCommand": "yarn install",
+  "functions": {
+    "apps/frontend/.next/server/**/*.js": {
+      "runtime": "nodejs18.x"
+    }
+  }
+} 

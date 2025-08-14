@@ -13,6 +13,8 @@ const nextConfig = {
   // Ensure proper output for Vercel
   output: 'standalone',
   outputFileTracingRoot: process.cwd(),
+  // Ensure public directory is properly handled
+  distDir: '.next',
 };
 
 const plugins = [

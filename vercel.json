@@ -4,7 +4,7 @@
   "framework": "nextjs",
   "installCommand": "yarn install",
   "functions": {
-    "apps/frontend/.next/server/**/*.js": {
+    "dist/apps/frontend/.next/standalone/server.js": {
       "runtime": "nodejs18.x"
     }
   }

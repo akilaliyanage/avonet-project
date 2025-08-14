@@ -1,12 +1,12 @@
 # Nx cache
 .nx/
-dist/
 
 # Dependencies
 node_modules/
 
-# Build outputs (except frontend)
+# Backend build outputs
 dist/apps/backend/
+apps/backend/
 
 # Development files
 *.log
@@ -21,4 +21,7 @@ dist/apps/backend/
 
 # OS files
 .DS_Store
-Thumbs.db 
+Thumbs.db
+
+# Keep frontend build output
+!dist/apps/frontend/ 

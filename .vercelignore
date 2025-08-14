@@ -1,6 +1,3 @@
-# Dependencies
-node_modules/
-
 # Backend files
 apps/backend/
 dist/apps/backend/
@@ -24,7 +21,4 @@ apps/*-e2e/
 Thumbs.db
 
 # Nx cache
-.nx/
-
-# Keep only frontend files
-!apps/frontend/ 
+.nx/ 

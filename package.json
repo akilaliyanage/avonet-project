@@ -2,7 +2,9 @@
   "name": "@avonet-expense-tracker/source",
   "version": "0.0.0",
   "license": "MIT",
-  "scripts": {},
+  "scripts": {
+    "build:frontend": "cd apps/frontend && npm install && npm run build"
+  },
   "private": true,
   "dependencies": {
     "@auth0/auth0-react": "^2.4.0",

@@ -3,7 +3,6 @@ import { useAuth0 } from '@auth0/auth0-react';
 import {
   Paper,
   Typography,
-  Grid,
   Box,
   CircularProgress,
 } from '@mui/material';
@@ -23,9 +22,15 @@ import {
 
 const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042', '#8884D8', '#82CA9D', '#FFC0CB', '#DDA0DD'];
 
+interface ExpensePattern {
+  month: string;
+  total: number;
+  byType: Record<string, number>;
+}
+
 export default function ExpenseCharts() {
   const { getAccessTokenSilently } = useAuth0();
-  const [expensePatterns, setExpensePatterns] = useState([]);
+  const [expensePatterns, setExpensePatterns] = useState<ExpensePattern[]>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -68,7 +73,7 @@ export default function ExpenseCharts() {
 
   // Prepare data for pie chart (expense types)
   const pieChartData = Object.entries(
-    expensePatterns.reduce((acc, month) => {
+    expensePatterns.reduce((acc: Record<string, number>, month) => {
       Object.entries(month.byType).forEach(([type, amount]) => {
         acc[type] = (acc[type] || 0) + amount;
       });
@@ -91,9 +96,9 @@ export default function ExpenseCharts() {
         Expense Analytics
       </Typography>
       
-      <Grid container spacing={3}>
+      <Box sx={{ display: 'flex', gap: 3, flexWrap: 'wrap' }}>
         {/* Pie Chart - Expense Types */}
-        <Grid item xs={12} md={6}>
+        <Box sx={{ flex: '1 1 400px', minWidth: 0 }}>
           <Typography variant="subtitle1" gutterBottom>
             Expense Distribution by Type
           </Typography>
@@ -104,7 +109,7 @@ export default function ExpenseCharts() {
                 cx="50%"
                 cy="50%"
                 labelLine={false}
-                label={({ name, percent }) => `${name} ${(percent * 100).toFixed(0)}%`}
+                label={({ name, percent }) => `${name} ${((percent || 0) * 100).toFixed(0)}%`}
                 outerRadius={80}
                 fill="#8884d8"
                 dataKey="value"
@@ -113,13 +118,13 @@ export default function ExpenseCharts() {
                   <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
                 ))}
               </Pie>
-              <Tooltip formatter={(value) => `LKR ${value.toFixed(2)}`} />
+              <Tooltip formatter={(value) => `LKR ${(value as number).toFixed(2)}`} />
             </PieChart>
           </ResponsiveContainer>
-        </Grid>
+        </Box>
         
         {/* Bar Chart - Monthly Trends */}
-        <Grid item xs={12} md={6}>
+        <Box sx={{ flex: '1 1 400px', minWidth: 0 }}>
           <Typography variant="subtitle1" gutterBottom>
             Monthly Spending Trends
           </Typography>
@@ -128,12 +133,12 @@ export default function ExpenseCharts() {
               <CartesianGrid strokeDasharray="3 3" />
               <XAxis dataKey="month" />
               <YAxis />
-              <Tooltip formatter={(value) => `LKR ${value.toFixed(2)}`} />
+              <Tooltip formatter={(value) => `LKR ${(value as number).toFixed(2)}`} />
               <Bar dataKey="total" fill="#8884d8" />
             </BarChart>
           </ResponsiveContainer>
-        </Grid>
-      </Grid>
+        </Box>
+      </Box>
     </Paper>
   );
 } 

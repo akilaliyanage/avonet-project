@@ -3,7 +3,6 @@ import { useAuth0 } from '@auth0/auth0-react';
 import {
   Box,
   Container,
-  Grid,
   Paper,
   Button,
   AppBar,
@@ -164,51 +163,51 @@ export default function Dashboard() {
           </Alert>
         )}
 
-        <Grid container spacing={3}>
-          {/* Stats Cards */}
-          <Grid item xs={12} md={4}>
-            <ExpenseStats stats={stats} />
-          </Grid>
-
-          {/* Add Expense Button */}
-          <Grid item xs={12} md={8}>
-            <Paper sx={{ p: 2, textAlign: 'center' }}>
-              <Button
-                variant="contained"
-                startIcon={<Add />}
-                onClick={() => setShowExpenseForm(true)}
-                size="large"
-              >
-                Add New Expense
-              </Button>
-            </Paper>
-          </Grid>
+        <Box sx={{ display: 'flex', flexDirection: 'column', gap: 3 }}>
+          {/* Stats and Add Button Row */}
+          <Box sx={{ display: 'flex', gap: 3, flexWrap: 'wrap' }}>
+            <Box sx={{ flex: '1 1 400px', minWidth: 0 }}>
+              <ExpenseStats stats={stats} />
+            </Box>
+            <Box sx={{ flex: '1 1 400px', minWidth: 0 }}>
+              <Paper sx={{ p: 2, textAlign: 'center' }}>
+                <Button
+                  variant="contained"
+                  startIcon={<Add />}
+                  onClick={() => setShowExpenseForm(true)}
+                  size="large"
+                >
+                  Add New Expense
+                </Button>
+              </Paper>
+            </Box>
+          </Box>
 
           {/* Expense Form */}
           {showExpenseForm && (
-            <Grid item xs={12}>
+            <Box>
               <ExpenseForm
                 onSubmit={editingExpense ? handleEditExpense : handleAddExpense}
                 onCancel={handleCancelEdit}
                 initialData={editingExpense}
               />
-            </Grid>
+            </Box>
           )}
 
           {/* Charts */}
-          <Grid item xs={12}>
+          <Box>
             <ExpenseCharts />
-          </Grid>
+          </Box>
 
           {/* Expense List */}
-          <Grid item xs={12}>
+          <Box>
             <ExpenseList 
               expenses={expenses} 
               onExpenseUpdate={fetchExpenses}
               onEditExpense={handleStartEdit}
             />
-          </Grid>
-        </Grid>
+          </Box>
+        </Box>
       </Container>
     </Box>
   );

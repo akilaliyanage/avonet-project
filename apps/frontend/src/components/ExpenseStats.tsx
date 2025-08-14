@@ -2,7 +2,6 @@ import {
   Paper,
   Typography,
   Box,
-  Grid,
   Chip,
   LinearProgress,
 } from '@mui/material';
@@ -35,8 +34,8 @@ export default function ExpenseStats({ stats }: ExpenseStatsProps) {
         Monthly Overview
       </Typography>
       
-      <Grid container spacing={2}>
-        <Grid item xs={12}>
+      <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
+        <Box>
           <Box display="flex" alignItems="center" gap={1} mb={2}>
             <AccountBalanceWallet color="primary" />
             <Typography variant="h4" component="span">
@@ -46,9 +45,9 @@ export default function ExpenseStats({ stats }: ExpenseStatsProps) {
           <Typography variant="body2" color="text.secondary">
             Total Spent This Month
           </Typography>
-        </Grid>
+        </Box>
         
-        <Grid item xs={12}>
+        <Box>
           <Box mb={2}>
             <Box display="flex" justifyContent="space-between" mb={1}>
               <Typography variant="body2">
@@ -65,9 +64,9 @@ export default function ExpenseStats({ stats }: ExpenseStatsProps) {
               sx={{ height: 8, borderRadius: 4 }}
             />
           </Box>
-        </Grid>
+        </Box>
         
-        <Grid item xs={12}>
+        <Box>
           <Box display="flex" alignItems="center" gap={1}>
             <TrendingUp color="secondary" />
             <Typography variant="body1">
@@ -77,10 +76,10 @@ export default function ExpenseStats({ stats }: ExpenseStatsProps) {
           <Typography variant="body2" color="text.secondary">
             Monthly Budget Limit
           </Typography>
-        </Grid>
+        </Box>
         
         {isAlert && (
-          <Grid item xs={12}>
+          <Box>
             <Box display="flex" alignItems="center" gap={1}>
               <Warning color="error" />
               <Chip
@@ -90,9 +89,9 @@ export default function ExpenseStats({ stats }: ExpenseStatsProps) {
                 size="small"
               />
             </Box>
-          </Grid>
+          </Box>
         )}
-      </Grid>
+      </Box>
     </Paper>
   );
 } 

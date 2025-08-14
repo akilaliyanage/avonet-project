@@ -3,7 +3,6 @@ import {
   Paper,
   TextField,
   Button,
-  Grid,
   MenuItem,
   Box,
   Typography,
@@ -59,58 +58,62 @@ export default function ExpenseForm({ onSubmit, onCancel, initialData }: Expense
       </Typography>
       
       <form onSubmit={handleSubmit}>
-        <Grid container spacing={3}>
-          <Grid item xs={12} md={6}>
-            <TextField
-              fullWidth
-              label="Description"
-              value={formData.description}
-              onChange={(e) => handleChange('description', e.target.value)}
-              required
-            />
-          </Grid>
-          
-          <Grid item xs={12} md={6}>
-            <TextField
-              fullWidth
-              label="Amount"
-              type="number"
-              value={formData.amount}
-              onChange={(e) => handleChange('amount', e.target.value)}
-              required
-              inputProps={{ min: 0, step: 0.01 }}
-            />
-          </Grid>
-          
-          <Grid item xs={12} md={6}>
-            <LocalizationProvider dateAdapter={AdapterDayjs}>
-              <DatePicker
-                label="Date"
-                value={formData.date}
-                onChange={(value) => handleChange('date', value)}
-                slotProps={{ textField: { fullWidth: true } }}
+        <Box sx={{ display: 'flex', flexDirection: 'column', gap: 3 }}>
+          <Box sx={{ display: 'flex', gap: 3, flexWrap: 'wrap' }}>
+            <Box sx={{ flex: '1 1 300px', minWidth: 0 }}>
+              <TextField
+                fullWidth
+                label="Description"
+                value={formData.description}
+                onChange={(e) => handleChange('description', e.target.value)}
+                required
               />
-            </LocalizationProvider>
-          </Grid>
+            </Box>
+            
+            <Box sx={{ flex: '1 1 300px', minWidth: 0 }}>
+              <TextField
+                fullWidth
+                label="Amount"
+                type="number"
+                value={formData.amount}
+                onChange={(e) => handleChange('amount', e.target.value)}
+                required
+                inputProps={{ min: 0, step: 0.01 }}
+              />
+            </Box>
+          </Box>
           
-          <Grid item xs={12} md={6}>
-            <TextField
-              fullWidth
-              select
-              label="Type"
-              value={formData.type}
-              onChange={(e) => handleChange('type', e.target.value)}
-              required
-            >
-              {expenseTypes.map((option) => (
-                <MenuItem key={option.value} value={option.value}>
-                  {option.label}
-                </MenuItem>
-              ))}
-            </TextField>
-          </Grid>
+          <Box sx={{ display: 'flex', gap: 3, flexWrap: 'wrap' }}>
+            <Box sx={{ flex: '1 1 300px', minWidth: 0 }}>
+              <LocalizationProvider dateAdapter={AdapterDayjs}>
+                <DatePicker
+                  label="Date"
+                  value={formData.date}
+                  onChange={(value) => handleChange('date', value)}
+                  slotProps={{ textField: { fullWidth: true } }}
+                />
+              </LocalizationProvider>
+            </Box>
+            
+            <Box sx={{ flex: '1 1 300px', minWidth: 0 }}>
+              <TextField
+                fullWidth
+                select
+                label="Type"
+                value={formData.type}
+                onChange={(e) => handleChange('type', e.target.value)}
+                required
+              >
+                {expenseTypes.map((option) => (
+                  <MenuItem key={option.value} value={option.value}>
+                    {option.label}
+                  </MenuItem>
+                ))}
+              </TextField>
+            </Box>
+          </Box>
           
-          <Grid item xs={12}>
+          <Box>
             <TextField
               fullWidth
               label="Notes (Optional)"
@@ -119,9 +122,9 @@ export default function ExpenseForm({ onSubmit, onCancel, initialData }: Expense
               value={formData.notes}
               onChange={(e) => handleChange('notes', e.target.value)}
             />
-          </Grid>
+          </Box>
           
-          <Grid item xs={12}>
+          <Box>
             <Box display="flex" gap={2} justifyContent="flex-end">
               <Button variant="outlined" onClick={onCancel}>
                 Cancel
@@ -130,8 +133,8 @@ export default function ExpenseForm({ onSubmit, onCancel, initialData }: Expense
                 {initialData ? 'Update' : 'Add'} Expense
               </Button>
             </Box>
-          </Grid>
-        </Grid>
+          </Box>
+        </Box>
       </form>
     </Paper>
   );

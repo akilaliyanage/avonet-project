@@ -14,7 +14,6 @@ import {
   Box,
   TextField,
   MenuItem,
-  Grid,
 } from '@mui/material';
 import { Edit, Delete, FilterList } from '@mui/icons-material';
 import dayjs from 'dayjs';
@@ -99,8 +98,8 @@ export default function ExpenseList({ expenses, onExpenseUpdate, onEditExpense }
       </Box>
 
       {/* Filters */}
-      <Grid container spacing={2} sx={{ mb: 3 }}>
-        <Grid item xs={12} md={2}>
+      <Box sx={{ display: 'flex', gap: 2, mb: 3, flexWrap: 'wrap' }}>
+        <Box sx={{ flex: '1 1 200px', minWidth: 0 }}>
           <TextField
             select
             fullWidth
@@ -116,8 +115,8 @@ export default function ExpenseList({ expenses, onExpenseUpdate, onEditExpense }
               </MenuItem>
             ))}
           </TextField>
-        </Grid>
-        <Grid item xs={12} md={2}>
+        </Box>
+        <Box sx={{ flex: '1 1 200px', minWidth: 0 }}>
           <TextField
             type="date"
             fullWidth
@@ -127,8 +126,8 @@ export default function ExpenseList({ expenses, onExpenseUpdate, onEditExpense }
             size="small"
             InputLabelProps={{ shrink: true }}
           />
-        </Grid>
-        <Grid item xs={12} md={2}>
+        </Box>
+        <Box sx={{ flex: '1 1 200px', minWidth: 0 }}>
           <TextField
             type="date"
             fullWidth
@@ -138,8 +137,8 @@ export default function ExpenseList({ expenses, onExpenseUpdate, onEditExpense }
             size="small"
             InputLabelProps={{ shrink: true }}
           />
-        </Grid>
-        <Grid item xs={12} md={2}>
+        </Box>
+        <Box sx={{ flex: '1 1 200px', minWidth: 0 }}>
           <TextField
             type="number"
             fullWidth
@@ -148,8 +147,8 @@ export default function ExpenseList({ expenses, onExpenseUpdate, onEditExpense }
             onChange={(e) => setFilters(prev => ({ ...prev, minAmount: e.target.value }))}
             size="small"
           />
-        </Grid>
-        <Grid item xs={12} md={2}>
+        </Box>
+        <Box sx={{ flex: '1 1 200px', minWidth: 0 }}>
           <TextField
             type="number"
             fullWidth
@@ -158,8 +157,8 @@ export default function ExpenseList({ expenses, onExpenseUpdate, onEditExpense }
             onChange={(e) => setFilters(prev => ({ ...prev, maxAmount: e.target.value }))}
             size="small"
           />
-        </Grid>
-      </Grid>
+        </Box>
+      </Box>
 
       {/* Expenses Table */}
       <TableContainer>
@@ -194,8 +193,8 @@ export default function ExpenseList({ expenses, onExpenseUpdate, onEditExpense }
                   </TableCell>
                   <TableCell>
                     <Chip
-                      label={expenseTypeLabels[expense.type]}
-                      color={expenseTypeColors[expense.type]}
+                      label={expenseTypeLabels[expense.type as keyof typeof expenseTypeLabels] || 'Other'}
+                      color={(expenseTypeColors[expense.type as keyof typeof expenseTypeColors] as any) || 'default'}
                       size="small"
                     />
                   </TableCell>

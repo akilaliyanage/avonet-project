@@ -28,7 +28,7 @@ class ApiClient {
 
   private handleResponse = async <T>(response: Response): Promise<T> => {
     if (!response.ok) {
-      let errorMessage = ERROR_MESSAGES.UNKNOWN_ERROR;
+      let errorMessage: string = ERROR_MESSAGES.UNKNOWN_ERROR;
       
       try {
         const errorData = await response.json();

@@ -1,16 +1,6 @@
 {
-  "buildCommand": "npx nx build frontend --configuration=production",
-  "outputDirectory": "dist/apps/frontend",
+  "buildCommand": "cd apps/frontend && npm run build",
+  "outputDirectory": "apps/frontend",
   "framework": "nextjs",
-  "installCommand": "yarn install",
-  "functions": {
-    "dist/apps/frontend/.next/standalone/server.js": {
-      "runtime": "nodejs18.x"
-    }
-  },
-  "build": {
-    "env": {
-      "NODE_ENV": "production"
-    }
-  }
+  "installCommand": "yarn install"
 } 

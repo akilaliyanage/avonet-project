@@ -1,14 +1,12 @@
-# Nx cache
-.nx/
-
 # Dependencies
 node_modules/
 
-# Backend source and build files (but keep config files)
-apps/backend/src/
-apps/backend/dist/
-apps/backend/node_modules/
+# Backend files
+apps/backend/
 dist/apps/backend/
+
+# E2E test files
+apps/*-e2e/
 
 # Development files
 *.log
@@ -25,20 +23,8 @@ dist/apps/backend/
 .DS_Store
 Thumbs.db
 
-# Keep frontend build output
-!dist/apps/frontend/
+# Nx cache
+.nx/
 
-# Keep all project configuration files
-!apps/*/project.json
-!apps/*/tsconfig*.json
-!apps/*/package.json
-!apps/*/jest.config.*
-!apps/*/eslint.config.*
-!apps/*/next.config.*
-!apps/*/webpack.config.*
-
-# Keep workspace configuration files
-!nx.json
-!tsconfig.base.json
-!package.json
-!yarn.lock 
+# Keep only frontend files
+!apps/frontend/ 

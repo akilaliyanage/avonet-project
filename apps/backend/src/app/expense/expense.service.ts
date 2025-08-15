@@ -1,9 +1,9 @@
-import { Injectable, NotFoundException, ForbiddenException } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
-import { Model, Types } from 'mongoose';
-import { Expense, ExpenseDocument, ExpenseType } from '../schemas/expense.schema';
-import { CreateExpenseDto, UpdateExpenseDto, FilterExpenseDto } from '../dto/expense.dto';
-import { AuthService } from './auth.service';
+import { Model } from 'mongoose';
+import { Expense, ExpenseDocument, ExpenseType } from './expense.schema';
+import { CreateExpenseDto, UpdateExpenseDto, FilterExpenseDto } from './dto/expense.dto';
+import { AuthService } from '../auth/auth.service';
 
 @Injectable()
 export class ExpenseService {
@@ -80,7 +80,6 @@ export class ExpenseService {
 
   async update(id: string, updateExpenseDto: UpdateExpenseDto, user: any) {
     const expense = await this.findOne(id, user);
-    
     Object.assign(expense, updateExpenseDto);
     return expense.save();
   }
@@ -106,8 +105,8 @@ export class ExpenseService {
     });
 
     const totalAmount = expenses.reduce((sum, expense) => sum + expense.amount, 0);
-    
-    const expensesByType = expenses.reduce((acc, expense) => {
+
+    const expensesByType = expenses.reduce((acc: Record<ExpenseType, number>, expense) => {
       acc[expense.type] = (acc[expense.type] || 0) + expense.amount;
       return acc;
     }, {} as Record<ExpenseType, number>);
@@ -129,15 +128,15 @@ export class ExpenseService {
 
     const stats = await this.getMonthlyStats(user, year, month);
     const monthlyLimit = dbUser.monthlyExpenseLimit;
-    
+
     const percentageUsed = (stats.totalAmount / monthlyLimit) * 100;
-    
+
     return {
       totalAmount: stats.totalAmount,
       monthlyLimit,
       percentageUsed,
       isAlert: percentageUsed >= 90,
-      alertMessage: percentageUsed >= 90 
+      alertMessage: percentageUsed >= 90
         ? `Warning: You've used ${percentageUsed.toFixed(1)}% of your monthly budget!`
         : null,
     };
@@ -158,19 +157,18 @@ export class ExpenseService {
       date: { $gte: startDate, $lte: endDate },
     });
 
-    // Group by month and type
-    const patterns = expenses.reduce((acc, expense) => {
-      const month = expense.date.getMonth();
+    const patterns = expenses.reduce((acc: Record<string, any>, expense) => {
+      const monthIndex = expense.date.getMonth();
       const year = expense.date.getFullYear();
-      const key = `${year}-${month + 1}`;
-      
+      const key = `${year}-${monthIndex + 1}`;
+
       if (!acc[key]) {
         acc[key] = { month: key, total: 0, byType: {} };
       }
-      
+
       acc[key].total += expense.amount;
       acc[key].byType[expense.type] = (acc[key].byType[expense.type] || 0) + expense.amount;
-      
+
       return acc;
     }, {} as Record<string, any>);
 

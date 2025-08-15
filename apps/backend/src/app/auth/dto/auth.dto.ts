@@ -1,4 +1,4 @@
-import { IsEmail, IsString, MinLength, IsOptional } from 'class-validator';
+import { IsEmail, IsString, MinLength, IsOptional, IsNumber, Min } from 'class-validator';
 
 export class LoginDto {
   @IsEmail()
@@ -24,5 +24,16 @@ export class RegisterDto {
   monthlyExpenseLimit?: number;
 
   @IsOptional()
+  currency?: string;
+}
+
+export class UpdateProfileDto {
+  @IsOptional()
+  @IsNumber()
+  @Min(0)
+  monthlyExpenseLimit?: number;
+
+  @IsOptional()
+  @IsString()
   currency?: string;
 } 

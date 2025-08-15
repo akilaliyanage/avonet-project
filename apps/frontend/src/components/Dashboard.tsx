@@ -10,6 +10,7 @@ import {
   Typography,
   IconButton,
   Alert,
+  TextField,
 } from '@mui/material';
 import { Add, AccountCircle, Logout } from '@mui/icons-material';
 import ExpenseForm from './ExpenseForm';
@@ -17,14 +18,19 @@ import ExpenseList from './ExpenseList';
 import ExpenseStats from './ExpenseStats';
 import ExpenseCharts from './ExpenseCharts';
 import { Expense, CreateExpenseData, UpdateExpenseData, ExpenseStats as StatsType } from '../types';
+import { useApi } from '../services/api';
 
 export default function Dashboard() {
   const { logout, user, getAccessTokenSilently } = useAuth0();
+  const { updateProfile } = useApi();
   const [showExpenseForm, setShowExpenseForm] = useState(false);
   const [editingExpense, setEditingExpense] = useState<Expense | null>(null);
   const [expenses, setExpenses] = useState<Expense[]>([]);
   const [stats, setStats] = useState<StatsType | null>(null);
   const [alert, setAlert] = useState<string | null>(null);
+  const [budgetInput, setBudgetInput] = useState<string>('');
+  const [savingBudget, setSavingBudget] = useState<boolean>(false);
+  const [budgetError, setBudgetError] = useState<string | null>(null);
 
   // Fetch expenses and stats when component mounts
   useEffect(() => {
@@ -64,12 +70,29 @@ export default function Dashboard() {
       if (response.ok) {
         const data = await response.json();
         setStats(data);
+        if (data?.monthlyLimit) {
+          setBudgetInput(String(data.monthlyLimit));
+        }
         if (data.isAlert) {
           setAlert(data.alertMessage);
         }
       }
     } catch (error) {
       console.error('Error fetching stats:', error);
+    }
+  };
+
+  const handleSaveBudget = async () => {
+    const parsed = Number(budgetInput);
+    if (Number.isNaN(parsed) || parsed < 0) {
+      setBudgetError('Please enter a valid non-negative number');
+      return;
+    }
+    setBudgetError(null);
+    setSavingBudget(true);
+    const res = await updateProfile({ monthlyExpenseLimit: parsed }, { onLoading: setSavingBudget, onError: setBudgetError });
+    if (res) {
+      await fetchStats();
     }
   };
 
@@ -170,15 +193,34 @@ export default function Dashboard() {
               <ExpenseStats stats={stats} />
             </Box>
             <Box sx={{ flex: '1 1 400px', minWidth: 0 }}>
-              <Paper sx={{ p: 2, textAlign: 'center' }}>
-                <Button
-                  variant="contained"
-                  startIcon={<Add />}
-                  onClick={() => setShowExpenseForm(true)}
-                  size="large"
-                >
-                  Add New Expense
-                </Button>
+              <Paper sx={{ p: 2 }}>
+                <Typography variant="subtitle1" gutterBottom>
+                  Set Monthly Budget
+                </Typography>
+                <Box display="flex" gap={2} alignItems="center">
+                  <TextField
+                    type="number"
+                    label="Monthly Limit (LKR)"
+                    value={budgetInput}
+                    onChange={(e) => setBudgetInput(e.target.value)}
+                    size="small"
+                    error={!!budgetError}
+                    helperText={budgetError || ''}
+                  />
+                  <Button variant="contained" onClick={handleSaveBudget} disabled={savingBudget}>
+                    Save
+                  </Button>
+                </Box>
+                <Box sx={{ p: 2, textAlign: 'center' }}>
+                  <Button
+                    variant="contained"
+                    startIcon={<Add />}
+                    onClick={() => setShowExpenseForm(true)}
+                    size="large"
+                  >
+                    Add New Expense
+                  </Button>
+                </Box>
               </Paper>
             </Box>
           </Box>

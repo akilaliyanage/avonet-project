@@ -1,6 +1,6 @@
 import { Controller, Get, UseGuards, Request } from '@nestjs/common';
-import { AuthService } from '../services/auth.service';
-import { JwtAuthGuard } from '../guards/jwt-auth.guard';
+import { AuthService } from './auth.service';
+import { JwtAuthGuard } from './jwt-auth.guard';
 
 @Controller('auth')
 export class AuthController {
@@ -29,7 +29,7 @@ export class AuthController {
           name: user.name
         }))
       };
-    } catch (error) {
+    } catch (error: any) {
       return {
         message: 'Error fetching users',
         error: error.message
@@ -39,7 +39,7 @@ export class AuthController {
 
   @Get('test')
   @UseGuards(JwtAuthGuard)
-  async testAuth(@Request() req) {
+  async testAuth(@Request() req: any) {
     return {
       message: 'Authentication successful!',
       user: req.user,
@@ -49,7 +49,7 @@ export class AuthController {
 
   @Get('profile')
   @UseGuards(JwtAuthGuard)
-  async getProfile(@Request() req) {
+  async getProfile(@Request() req: any) {
     const user = await this.authService.findOrCreateUser(req.user);
     return {
       id: user._id,
@@ -63,8 +63,7 @@ export class AuthController {
 
   @Get('profile/update')
   @UseGuards(JwtAuthGuard)
-  async updateProfile(@Request() req) {
-    // Use findOrCreateUser to ensure user exists
+  async updateProfile(@Request() req: any) {
     const user = await this.authService.findOrCreateUser(req.user);
     return {
       id: user._id,

@@ -1,6 +1,6 @@
-import { IsString, IsNumber, IsDate, IsEnum, IsOptional, IsMongoId } from 'class-validator';
+import { IsString, IsNumber, IsDate, IsEnum, IsOptional } from 'class-validator';
 import { Type } from 'class-transformer';
-import { ExpenseType } from '../schemas/expense.schema';
+import { ExpenseType } from '../expense.schema';
 
 export class CreateExpenseDto {
   @IsString()

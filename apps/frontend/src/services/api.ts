@@ -12,10 +12,11 @@ import {
 
 // Base API client with authentication
 class ApiClient {
+  constructor(private readonly getAccessTokenSilentlyFn: () => Promise<string>) {}
+
   private getAuthHeaders = async (): Promise<HeadersInit> => {
-    const { getAccessTokenSilently } = useAuth0();
     try {
-      const token = await getAccessTokenSilently();
+      const token = await this.getAccessTokenSilentlyFn();
       return {
         'Content-Type': API_CONFIG.HEADERS.CONTENT_TYPE,
         Authorization: `Bearer ${token}`,
@@ -140,6 +141,13 @@ class ApiClient {
     return this.request<any>(API_CONFIG.ENDPOINTS.AUTH.PROFILE);
   };
 
+  updateProfile = async (data: { monthlyExpenseLimit?: number; currency?: string }): Promise<any> => {
+    return this.request<any>(API_CONFIG.ENDPOINTS.AUTH.PROFILE, {
+      method: 'PATCH',
+      body: JSON.stringify(data),
+    });
+  };
+
   testAuth = async (): Promise<any> => {
     return this.request<any>(API_CONFIG.ENDPOINTS.AUTH.TEST);
   };
@@ -153,7 +161,7 @@ class ApiClient {
 export const useApi = () => {
   const { getAccessTokenSilently } = useAuth0();
   
-  const apiClient = new ApiClient();
+  const apiClient = new ApiClient(() => getAccessTokenSilently());
   
   // Wrap API calls with loading and error states
   const withLoadingState = async <T>(
@@ -202,6 +210,9 @@ export const useApi = () => {
     // Auth operations
     getProfile: (callbacks?: { onLoading?: (loading: boolean) => void; onError?: (error: string | null) => void }) =>
       withLoadingState(() => apiClient.getProfile(), callbacks?.onLoading, callbacks?.onError),
+
+    updateProfile: (data: { monthlyExpenseLimit?: number; currency?: string }, callbacks?: { onLoading?: (loading: boolean) => void; onError?: (error: string | null) => void }) =>
+      withLoadingState(() => apiClient.updateProfile(data), callbacks?.onLoading, callbacks?.onError),
     
     testAuth: (callbacks?: { onLoading?: (loading: boolean) => void; onError?: (error: string | null) => void }) =>
       withLoadingState(() => apiClient.testAuth(), callbacks?.onLoading, callbacks?.onError),

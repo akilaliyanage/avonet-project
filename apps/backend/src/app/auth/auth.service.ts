@@ -1,7 +1,7 @@
 import { Injectable, Logger } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
-import { User, UserDocument } from '../schemas/user.schema';
+import { User, UserDocument } from './user.schema';
 
 @Injectable()
 export class AuthService {
@@ -15,20 +15,17 @@ export class AuthService {
     try {
       this.logger.log(`Finding or creating user for Auth0 user data: ${JSON.stringify(auth0User)}`);
 
-      // Handle both Auth0 user data format and simplified format
       let auth0Id: string;
       let email: string;
       let name: string;
       let picture: string;
 
       if (auth0User.sub) {
-        // Full Auth0 user data format
         auth0Id = auth0User.sub;
         email = auth0User.email;
         name = auth0User.name;
         picture = auth0User.picture;
       } else if (auth0User.userId) {
-        // Simplified format from expense service
         auth0Id = auth0User.userId;
         email = auth0User.email;
         name = auth0User.name;
@@ -46,10 +43,9 @@ export class AuthService {
       if (!user) {
         this.logger.log(`Creating new user with Auth0 ID: ${auth0Id}`);
 
-        // Create user with available data, use defaults if missing
         const newUser = new this.userModel({
           auth0Id,
-          email: email || `user-${auth0Id}@temp.com`, // Temporary email if missing
+          email: email || `user-${auth0Id}@temp.com`,
           name: name || 'Unknown User',
           picture,
           monthlyExpenseLimit: 10000,
@@ -60,7 +56,6 @@ export class AuthService {
         user = await newUser.save();
         this.logger.log(`New user created successfully with ID: ${user._id}`);
       } else {
-        // Update user info if we have new data
         const updates: any = {};
         if (email && email !== user.email) updates.email = email;
         if (name && name !== user.name) updates.name = name;
@@ -77,7 +72,7 @@ export class AuthService {
       }
 
       return user;
-    } catch (error) {
+    } catch (error: any) {
       this.logger.error(`Error in findOrCreateUser: ${error.message}`);
       this.logger.error(`Stack trace: ${error.stack}`);
       throw error;

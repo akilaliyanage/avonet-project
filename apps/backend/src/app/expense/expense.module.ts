@@ -1,8 +1,8 @@
 import { Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
-import { ExpenseController } from '../controllers/expense.controller';
-import { ExpenseService } from '../services/expense.service';
-import { Expense, ExpenseSchema } from '../schemas/expense.schema';
+import { ExpenseController } from './expense.controller';
+import { ExpenseService } from './expense.service';
+import { Expense, ExpenseSchema } from './expense.schema';
 import { AuthModule } from '../auth/auth.module';
 
 @Module({

@@ -1,18 +1,7 @@
-import {
-  Controller,
-  Get,
-  Post,
-  Body,
-  Patch,
-  Param,
-  Delete,
-  Query,
-  UseGuards,
-  Request,
-} from '@nestjs/common';
-import { ExpenseService } from '../services/expense.service';
-import { CreateExpenseDto, UpdateExpenseDto, FilterExpenseDto } from '../dto/expense.dto';
-import { JwtAuthGuard } from '../guards/jwt-auth.guard';
+import { Controller, Get, Post, Body, Patch, Param, Delete, Query, UseGuards, Request } from '@nestjs/common';
+import { ExpenseService } from './expense.service';
+import { CreateExpenseDto, UpdateExpenseDto, FilterExpenseDto } from './dto/expense.dto';
+import { JwtAuthGuard } from '../auth/jwt-auth.guard';
 
 @Controller('expenses')
 @UseGuards(JwtAuthGuard)
@@ -20,12 +9,12 @@ export class ExpenseController {
   constructor(private readonly expenseService: ExpenseService) {}
 
   @Post()
-  create(@Body() createExpenseDto: CreateExpenseDto, @Request() req) {
+  create(@Body() createExpenseDto: CreateExpenseDto, @Request() req: any) {
     return this.expenseService.create(createExpenseDto, req.user);
   }
 
   @Get()
-  findAll(@Query() filters: FilterExpenseDto, @Request() req) {
+  findAll(@Query() filters: FilterExpenseDto, @Request() req: any) {
     return this.expenseService.findAll(req.user, filters);
   }
 
@@ -33,7 +22,7 @@ export class ExpenseController {
   getMonthlyStats(
     @Query('year') year: number,
     @Query('month') month: number,
-    @Request() req,
+    @Request() req: any,
   ) {
     return this.expenseService.getMonthlyStats(req.user, year, month);
   }
@@ -42,7 +31,7 @@ export class ExpenseController {
   getExpenseAlert(
     @Query('year') year: number,
     @Query('month') month: number,
-    @Request() req,
+    @Request() req: any,
   ) {
     return this.expenseService.getExpenseAlert(req.user, year, month);
   }
@@ -50,13 +39,13 @@ export class ExpenseController {
   @Get('stats/patterns')
   getExpensePatterns(
     @Query('months') months: number = 6,
-    @Request() req,
+    @Request() req: any,
   ) {
     return this.expenseService.getExpensePatterns(req.user, months);
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string, @Request() req) {
+  findOne(@Param('id') id: string, @Request() req: any) {
     return this.expenseService.findOne(id, req.user);
   }
 
@@ -64,13 +53,13 @@ export class ExpenseController {
   update(
     @Param('id') id: string,
     @Body() updateExpenseDto: UpdateExpenseDto,
-    @Request() req,
+    @Request() req: any,
   ) {
     return this.expenseService.update(id, updateExpenseDto, req.user);
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string, @Request() req) {
+  remove(@Param('id') id: string, @Request() req: any) {
     return this.expenseService.remove(id, req.user);
   }
 } 

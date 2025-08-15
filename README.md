@@ -201,19 +201,48 @@ nx lint frontend
 nx lint backend
 ```
 
-### Project Structure
+### Architecture
+
+- **Style**: Domain-oriented, vertically sliced by feature (DDD-influenced)
+- **Domains**:
+  - `auth/`: `auth.controller.ts`, `auth.service.ts`, `jwt.strategy.ts`, `jwt-auth.guard.ts`, `user.schema.ts`, `dto/`
+  - `expense/`: `expense.controller.ts`, `expense.service.ts`, `expense.schema.ts`, `expense.dto.ts`
+- **Why vertical slices?** Each domain owns its controllers, services, schemas, and DTOs. This improves cohesion, reduces cross-module coupling, and makes changes safer and more local.
+- **NestJS Modules**: `AuthModule`, `ExpenseModule` registered in `AppModule`.
+- **Cross-cutting concerns**: Validation via global `ValidationPipe`, logging via NestJS `Logger`.
+
+### Backend patterns
+- **Controller–Service**: Controllers handle I/O and delegate to Services for business logic.
+- **Strategy (Auth)**: JWT handled via Passport `JwtStrategy`.
+- **Guard**: `JwtAuthGuard` protects routes and normalizes auth errors.
+- **DTO + Validation**: DTO classes per domain with `class-validator` and `class-transformer`.
+- **Repository/DAO via Mongoose Models**: Schemas mapped to models injected with `@InjectModel`.
+- **Module**: Feature modules encapsulate domain concerns.
+
+## Project Structure
 
 ```
 avonet-expense-tracker/
 ├── apps/
-│   ├── frontend/          # NextJS frontend application
-│   └── backend/           # NestJS backend application
-├── src/
-│   ├── components/        # React components
-│   ├── schemas/           # MongoDB schemas
-│   ├── services/          # Business logic
-│   ├── controllers/       # API endpoints
-│   └── dto/              # Data transfer objects
+│   ├── frontend/                 # NextJS frontend
+│   └── backend/                  # NestJS backend
+│       └── src/app/
+│           ├── auth/             # Domain slice: auth
+│           │   ├── auth.controller.ts
+│           │   ├── auth.module.ts
+│           │   ├── auth.service.ts
+│           │   ├── jwt.strategy.ts
+│           │   ├── jwt-auth.guard.ts
+│           │   ├── user.schema.ts
+│           │   └── dto/
+│           ├── expense/          # Domain slice: expense
+│           │   ├── expense.controller.ts
+│           │   ├── expense.module.ts
+│           │   ├── expense.service.ts
+│           │   ├── expense.schema.ts
+│           │   └── expense.dto.ts
+│           ├── app.controller.ts
+│           └── app.module.ts
 └── package.json
 ```
 

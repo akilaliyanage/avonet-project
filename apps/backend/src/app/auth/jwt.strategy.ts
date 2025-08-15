@@ -35,9 +35,8 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
     this.logger.log(`JWT Strategy: email: ${payload.email}`);
     this.logger.log(`JWT Strategy: name: ${payload.name}`);
     
-    // Auth0 payload structure
     return { 
-      userId: payload.sub, // Auth0 user ID
+      userId: payload.sub,
       email: payload.email,
       name: payload.name,
       picture: payload.picture

@@ -163,6 +163,24 @@ The application will be available at:
 
 ## Deployment
 
+### Production (Railway)
+
+- **Frontend**: `https://frontend-production-2f0a.up.railway.app`
+- **Backend API**: `https://avonet-project-production.up.railway.app/api`
+
+#### Environment variables on Railway
+
+- **Frontend service**
+  - `NEXT_PUBLIC_API_URL=https://avonet-project-production.up.railway.app/api`
+
+- **Backend service**
+  - `PORT` is provided by Railway automatically
+  - `FRONTEND_URL=https://frontend-production-2f0a.up.railway.app`
+  - `MONGODB_URI=<your Mongo connection string>`
+  - (plus your existing Auth0 vars: `AUTH0_DOMAIN`, `AUTH0_CLIENT_ID`, `AUTH0_CLIENT_SECRET`, `AUTH0_AUDIENCE`, `AUTH0_ISSUER_URL`)
+
+> Remember to add the production frontend URL to Auth0 Allowed Callback URLs, Logout URLs, and Web Origins.
+
 ### Frontend (Vercel - Recommended)
 ```bash
 # Install Vercel CLI

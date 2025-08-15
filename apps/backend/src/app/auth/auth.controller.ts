@@ -1,6 +1,7 @@
-import { Controller, Get, UseGuards, Request } from '@nestjs/common';
+import { Controller, Get, UseGuards, Request, Patch, Body } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { JwtAuthGuard } from './jwt-auth.guard';
+import { UpdateProfileDto } from './dto/auth.dto';
 
 @Controller('auth')
 export class AuthController {
@@ -61,17 +62,19 @@ export class AuthController {
     };
   }
 
-  @Get('profile/update')
+  @Patch('profile')
   @UseGuards(JwtAuthGuard)
-  async updateProfile(@Request() req: any) {
-    const user = await this.authService.findOrCreateUser(req.user);
+  async updateProfile(@Body() body: UpdateProfileDto, @Request() req: any) {
+    const updated = await this.authService.updateUserProfile(req.user.userId, body);
     return {
-      id: user._id,
-      email: user.email,
-      name: user.name,
-      picture: user.picture,
-      monthlyExpenseLimit: user.monthlyExpenseLimit,
-      currency: user.currency,
+      id: updated._id,
+      email: updated.email,
+      name: updated.name,
+      picture: updated.picture,
+      monthlyExpenseLimit: updated.monthlyExpenseLimit,
+      currency: updated.currency,
     };
   }
+
+
 } 

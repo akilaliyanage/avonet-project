@@ -2,6 +2,27 @@
 
 A full-stack personal expense tracking web application built with NextJS, NestJS, MongoDB, and Auth0.
 
+## Application Screenshots
+Home page - with alert
+
+[![Homepage](https://i.postimg.cc/rFfzDK65/Screenshot-2025-08-15-at-9-22-29-AM.png)](https://postimg.cc/zVRqMDGf)
+
+Adding a new expense
+
+[![Screenshot-2025-08-15-at-9-24-08-AM.png](https://i.postimg.cc/nrHczt0d/Screenshot-2025-08-15-at-9-24-08-AM.png)](https://postimg.cc/zbc1t4mW)
+
+Expense filter
+
+[![Screenshot-2025-08-15-at-9-25-24-AM.png](https://i.postimg.cc/3JqYMp5f/Screenshot-2025-08-15-at-9-25-24-AM.png)](https://postimg.cc/BX2dHjv2)
+
+Mobile View - Ipad
+
+[![Screenshot-2025-08-15-at-9-26-23-AM.png](https://i.postimg.cc/26TN0L7w/Screenshot-2025-08-15-at-9-26-23-AM.png)](https://postimg.cc/vg1KBBjg)
+
+Mobile View - Phone
+
+[![Screenshot-2025-08-15-at-9-27-07-AM.png](https://i.postimg.cc/DyS3cZJr/Screenshot-2025-08-15-at-9-27-07-AM.png)](https://postimg.cc/Czp2hw45)
+
 ## Features
 
 - **User Authentication**: Secure login/registration using Auth0
@@ -245,19 +266,3 @@ avonet-expense-tracker/
 │           └── app.module.ts
 └── package.json
 ```
-
-## Contributing
-
-1. Fork the repository
-2. Create a feature branch
-3. Make your changes
-4. Add tests if applicable
-5. Submit a pull request
-
-## License
-
-MIT License - see LICENSE file for details
-
-## Support
-
-For issues and questions, please create an issue in the GitHub repository.

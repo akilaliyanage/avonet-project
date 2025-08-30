@@ -29,7 +29,7 @@
     "dayjs": "^1.11.13",
     "jwks-rsa": "^3.2.0",
     "mongoose": "^8.17.1",
-    "next": "^15.4.6",
+    "next": "^15.4.7",
     "passport": "^0.7.0",
     "passport-jwt": "^4.0.1",
     "react": "^19.1.1",
